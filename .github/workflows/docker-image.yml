@@ -17,6 +17,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build the Docker image
-      run: cd front-app && docker build . --file Dockerfile --tag loicpincon/app-spa-intex-front:latest
+      run: docker build . --file Dockerfile --tag loicpincon/app-spa-intex-front:latest
     - name: Publish the Docker image
       run: docker push loicpincon/app-spa-intex-front:latest
