@@ -7,7 +7,14 @@ services:
     networks:
       spa-intex-app-network:
   database:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.001'
+          memory: 50M
     image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
     networks:
       spa-intex-app-network:
 networks:
