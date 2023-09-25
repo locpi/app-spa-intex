@@ -11,5 +11,13 @@ services:
       MYSQL_ROOT_PASSWORD: "password"
     networks:
       spa-intex-app-network:
+  mosquito:
+    container_name: mosquito
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      spa-intex-app-network:
 networks:
   spa-intex-app-network:
