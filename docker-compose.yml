@@ -1,0 +1,14 @@
+services:
+  frontend:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"
+    networks:
+      spa-intex-app-network:
+  database:
+    image: mysql
+    networks:
+      spa-intex-app-network:
+networks:
+  spa-intex-app-network:
