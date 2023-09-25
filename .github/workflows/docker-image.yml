@@ -12,4 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: cd front-app && docker build . --file Dockerfile --tag loicpincon/app-spa-intex-front:$(date +%s) @@ docker tag  loicpincon/app-spa-intex-front:$(date +%s) loicpincon/app-spa-intex-front:latest && docker push loicpincon/app-spa-intex-front:$(date +%s)
+      run: cd front-app && docker build . --file Dockerfile --tag loicpincon/app-spa-intex-front:latest
+    - name: Publish the Docker image
+      run: docker push loicpincon/app-spa-intex-front:latest
