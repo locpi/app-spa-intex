@@ -1,3 +1,4 @@
+version: "3.7"
 services:
   spa-app:
     image: loicpincon/app-spa-intex:latest
@@ -6,9 +7,11 @@ services:
     networks:
       spa-intex-app-network:
   database:
-    image: mongo:latest
+    image: mysql:latest
     networks:
       spa-intex-app-network:
+    environment:
+      MYSQL_ROOT_PASSWORD: password
   mosquito:
     container_name: mosquito
     image: eclipse-mosquitto
