@@ -14,8 +14,11 @@ RUN rm /usr/share/nginx/html/index.html
 RUN cp -r dist/* /usr/share/nginx/html/
 
 
-COPY backend-app /usr/back
 WORKDIR /usr/back
+RUN rm -rf /usr/front
+
+
+COPY backend-app /usr/back
 RUN npm i
 EXPOSE 80
 
