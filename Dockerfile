@@ -1,24 +1,15 @@
-FROM node:14.21.3-bullseye-slim
+FROM node:14.21.3-bullseye-slim as build
 COPY front-app /usr/front
 WORKDIR /usr/front
-
-RUN apt-get update
-RUN apt-get install nginx build-essential ufw -y
-RUN ufw allow 'Nginx HTTP'
-
 RUN npm i
 RUN npm run build
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-RUN rm -rf /etc/nginx/sites-enabled/default
-RUN rm /usr/share/nginx/html/index.html
-RUN cp -r dist/* /usr/share/nginx/html/
 
-
+FROM node:14.21.3-bullseye-slim
 WORKDIR /usr/back
-RUN rm -rf /usr/front
-
-
+RUN apt-get update &&  apt-get install nginx -y
 COPY backend-app /usr/back
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /usr/front/dist /usr/share/nginx/html
 RUN npm i
 EXPOSE 80
 

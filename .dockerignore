@@ -1,0 +1,4 @@
+fronnode_modules
+build
+.dockerignore
+Dockerfile
