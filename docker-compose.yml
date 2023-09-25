@@ -1,8 +1,8 @@
 services:
-  frontend:
-    image: loicpincon/app-spa-intex-front:latest
+  spa-app:
+    image: loicpincon/app-spa-intex:latest
     ports:
-      - "80:3000"
+      - "80:80"
     networks:
       spa-intex-app-network:
   database:
