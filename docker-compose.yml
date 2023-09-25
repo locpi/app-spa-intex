@@ -6,9 +6,7 @@ services:
     networks:
       spa-intex-app-network:
   database:
-    image: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: "password"
+    image: mongo:latest
     networks:
       spa-intex-app-network:
   mosquito:
