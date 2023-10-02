@@ -1,5 +1,5 @@
 FROM node:14.21.3-bullseye-slim as build
-COPY front-app /usr/front
+COPY frontend-app /usr/front
 WORKDIR /usr/front
 RUN npm i
 RUN npm run build
