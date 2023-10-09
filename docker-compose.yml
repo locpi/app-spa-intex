@@ -1,27 +1,34 @@
 version: "3.7"
 services:
-  spa-app:
-    image: loicpincon/app-spa-intex:latest
-    ports:
-      - "80:80"
-    networks:
-      spa-intex-app-network:
   database:
-    image: mysql:latest
+    image: mongo:4.4.6
     networks:
       spa-intex-app-network:
-    environment:
-      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '27018:27017'
+    volumes:
+      - ./dbdata6:/data/db
   mosquito:
     container_name: mosquito
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:2.0.18
     volumes:
-      - ./mosquitto/config/:/mosquitto/config/
-      - ./mosquitto/log/:/mosquitto/log/
+      - ./tools/mqtt/:/mosquitto/config/
+      - ./tools/mqtt/log/:/mosquitto/log/
     ports:
       - 1883:1883
       - 9001:9001
     networks:
       spa-intex-app-network:
+  spa-app:
+    image: loicpincon/app-spa-intex:latest
+    ports:
+      - "80:80"
+    environment:
+      PRODUCTION: true
+    profiles:
+      - prod
+    networks:
+      spa-intex-app-network:
+
 networks:
   spa-intex-app-network:

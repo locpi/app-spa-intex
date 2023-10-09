@@ -10,11 +10,9 @@ export interface MongoEntity {
 
 export abstract class MongoRepository<E extends MongoEntity> extends MongoConnect {
 
-  protected static Logger = Logger.getLogger(MongoRepository);
-
   private readonly collection: string;
 
-  protected constructor(collection: string) {
+  public constructor(collection: string) {
     super();
     this.collection = collection;
 
@@ -25,13 +23,13 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
       const collection = await client.db().collection(this.collection);
       const object = await collection.findOne(elem._getId());
       if (object) {
-        MongoRepository.Logger.debug("[" + this.collection + "] update object exist with id : " + elem._getId());
+        Logger.debug("[" + this.collection + "] update object exist with id : " + elem._getId());
         const newvalues = {
           $set: elem.getOtherField()
         };
         await collection.updateOne(elem._getId(), newvalues);
       } else {
-        MongoRepository.Logger.debug("[" + this.collection + "] add new object with id : " + elem._getId());
+        Logger.debug("[" + this.collection + "] add new object with id : " + elem._getId());
         await collection.insertOne(this.getEntity(elem));
       }
     });
@@ -50,6 +48,12 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
   }
 
   public async findAllWithParamsSort(param: any, sort: any): Promise<E[]> {
+    const client = await super.getClient();
+    const collection = await client.db().collection(this.collection);
+    return await collection.find(param, {sort: sort}).toArray();
+  }
+
+  public async findFirstWithParamsSort(param: any, sort: any): Promise<E[]> {
     const client = await super.getClient();
     const collection = await client.db().collection(this.collection);
     return await collection.find(param, {sort: sort}).toArray();
