@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   database:
-    image: mongo:4.4.6
+    image: docker.io/andresvidal/rpi3-mongodb3:latest
     networks:
       spa-intex-app-network:
     ports:
