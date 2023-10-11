@@ -16,14 +16,14 @@ export class HeaterTopic extends AbstractMqttService {
   }
 
   private actualBubbleStatusMessage(status: CommandState) {
-    Logger.debug("Receive actual spa status", EnumHelper.getCommandStateLibelle(status))
+    Logger.debug("Receive actual spa status", status)
     this.heaterEntityRepository.save(new HeaterEntity(new Date(), status))
   }
 
   public changeStateOfHeater(state: CommandState) {
-    this.sendMessage("pool/command/heater", EnumHelper.getCommandStateLibelle(state));
+    this.sendMessage("pool/command/heater",state);
     if (!process.env.PRODUCTION) {
-      this.sendMessage("pool/heater", EnumHelper.getCommandStateLibelle(state));
+      this.sendMessage("pool/heater",state);
     }
   }
 }

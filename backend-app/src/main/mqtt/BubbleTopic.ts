@@ -16,14 +16,14 @@ export class BubbleTopic extends AbstractMqttService {
   }
 
   private actualBubbleStatusMessage(status: CommandState) {
-    Logger.debug("Receive actual spa status", EnumHelper.getCommandStateLibelle(status))
+    Logger.debug("Receive actual spa status", status)
     this.bubbleEntityRepository.save(new BubbleEntity(new Date(), status))
   }
 
   public changeStateOfBubble(state: CommandState) {
-    this.sendMessage("pool/command/bubble", EnumHelper.getCommandStateLibelle(state));
+    this.sendMessage("pool/command/bubble",state);
     if(!process.env.PRODUCTION){
-      this.sendMessage("pool/bubble", EnumHelper.getCommandStateLibelle(state));
+      this.sendMessage("pool/bubble",state);
     }
   }
 }

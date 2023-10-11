@@ -19,7 +19,7 @@ export class PowerCommand {
       this.actualState = newState;
       Logger.debug("Switch to ON")
     } else {
-      throw new PowerCommandException("You cannot switch to " + EnumHelper.getCommandStateLibelle(newState) + " when actual state is " + EnumHelper.getCommandStateLibelle(this.actualState));
+      throw new PowerCommandException("You cannot switch to " + newState + " when actual state is " + this.actualState);
     }
   }
 

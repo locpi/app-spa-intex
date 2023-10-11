@@ -17,14 +17,14 @@ export class FilterTopic extends AbstractMqttService {
   }
 
   private actualBubbleStatusMessage(status: CommandState) {
-    Logger.debug("Receive actual spa status", EnumHelper.getCommandStateLibelle(status))
+    Logger.debug("Receive actual spa status", status)
     this.filterEntityRepository.save(new FilterEntity(new Date(), status))
   }
 
   public changeStateOfFilter(state: CommandState) {
-    this.sendMessage("pool/command/filter", EnumHelper.getCommandStateLibelle(state));
+    this.sendMessage("pool/command/filter",state);
     if(!process.env.PRODUCTION){
-      this.sendMessage("pool/filter", EnumHelper.getCommandStateLibelle(state));
+      this.sendMessage("pool/filter",state);
     }
   }
 }
