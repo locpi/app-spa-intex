@@ -9,22 +9,32 @@ import {FaPowerOff} from "react-icons/fa";
 import {RiBubbleChartLine} from "react-icons/ri";
 import {GiHotSurface} from "react-icons/gi";
 import {TbVacuumCleaner} from "react-icons/tb";
+import {Col, Container, Row} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 export default function Home() {
   return (
-      <div className='home'>
-        <div className='tile'>
-          <div className='left'>
-            <Temperature/>
-            {/* <MoreInfos /> */}
-          </div>
-          <div className='right'>
-            <Command {...new CommandDescription('power', <FaPowerOff/>)}/>
-            <Command {...new CommandDescription('filter', <TbVacuumCleaner/>)}/>
-            <Command {...new CommandDescription('heater', <GiHotSurface/>)}/>
-            <Command {...new CommandDescription('bubble', <RiBubbleChartLine/>)}/>
-          </div>
+      <div className={'home'}>
+        <Container>
+          <Row>
+            <Col>  <Temperature/></Col>
+          </Row>
+          <Row>
+            <Col sm={12} md={3}>
+              <Command {...new CommandDescription('power', <FaPowerOff/>)}/>
+            </Col>
+            <Col sm={12} md={3}>
+              <Command {...new CommandDescription('filter', <TbVacuumCleaner/>)}/>
+            </Col>
+            <Col sm={12} md={3}>
+              <Command {...new CommandDescription('heater', <GiHotSurface/>)}/>
+            </Col>
+            <Col sm={12} md={3}>
+              <Command {...new CommandDescription('bubble', <RiBubbleChartLine/>)}/>
+            </Col>
+          </Row>
+        </Container>
       </div>
-    </div>
+
   )
 }

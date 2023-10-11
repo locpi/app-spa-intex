@@ -30,11 +30,11 @@ export abstract class AbstractMqttService {
 
   protected sendMessage(topic: string, message: any) {
     const messageBody = message.toString().toLowerCase();
-    Logger.trace("Publish new message incoming to " + topic + " --> " + messageBody)
+    Logger.debug("Publish new message incoming to " + topic + " --> " + messageBody)
     AbstractMqttService.client.publish(topic, messageBody);
   }
 
   protected mapToCommandState(message:string){
-    return message === "1" ? CommandState.ON : CommandState.OFF
+    return message === "on" ? CommandState.ON : CommandState.OFF
   }
 }

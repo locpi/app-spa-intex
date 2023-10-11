@@ -16,14 +16,14 @@ export class PowerTopic extends AbstractMqttService {
   }
 
   private actualSpaStatusMessage(status: CommandState) {
-    Logger.debug("Receive actual spa status", EnumHelper.getCommandStateLibelle(status))
+    Logger.debug("Receive actual spa status", status)
     this.powerEntityRepository.save(new PowerEntity(new Date(), status))
   }
 
   public changeStateOfSpa(state: CommandState) {
-    this.sendMessage("pool/command/power", EnumHelper.getCommandStateLibelle(state));
+    this.sendMessage("pool/command/power", state);
     if(!process.env.PRODUCTION){
-      this.sendMessage("pool/power", EnumHelper.getCommandStateLibelle(state));
+      this.sendMessage("pool/power", state);
     }
   }
 }

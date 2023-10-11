@@ -37,30 +37,25 @@ app.use(express.json());
 
 export class Body {
   command: string;
-  status: boolean
+  status: string
 }
 
 app.post("/api/v1/command", (req, res) => {
   let body: Body = req.body as Body;
-
   switch (body.command) {
     case "power" :
-      powerTopic.changeStateOfSpa(body.status ? CommandState.ON : CommandState.OFF);
+      powerTopic.changeStateOfSpa(body.status === 'on' ? CommandState.ON : CommandState.OFF);
       break;
     case "bubble" :
-      bubbleTopic.changeStateOfBubble(body.status ? CommandState.ON : CommandState.OFF);
+      bubbleTopic.changeStateOfBubble(body.status === 'on' ? CommandState.ON : CommandState.OFF);
       break;
     case "filter" :
-      filterTopic.changeStateOfFilter(body.status ? CommandState.ON : CommandState.OFF);
+      filterTopic.changeStateOfFilter(body.status === 'on' ? CommandState.ON : CommandState.OFF);
       break;
     case "heater" :
-      heaterTopic.changeStateOfHeater(body.status ? CommandState.ON : CommandState.OFF);
+      heaterTopic.changeStateOfHeater(body.status === 'on' ? CommandState.ON : CommandState.OFF);
       break;
   }
-
-  Logger.info(body)
-
-
   res.send()
 })
 

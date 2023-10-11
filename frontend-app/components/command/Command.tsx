@@ -2,6 +2,7 @@ import './Command.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {CommandDescription} from "../../model/CommandDescription";
+import {Button} from "react-bootstrap";
 
 export class Cammnd {
   status: string;
@@ -19,9 +20,9 @@ export default function Command({name,icon}:CommandDescription) {
 
   function getClassState() {
     if (command?.status === 'on') {
-      return "command-state-active"
+      return "success"
     }
-    return "command-state-disabled"
+    return "secondary"
 
   }
 
@@ -80,8 +81,8 @@ export default function Command({name,icon}:CommandDescription) {
     update(command!.status);
   }
 
-  return command ? <div className={'command ' + getClassState()} onClick={() => changeState()}>
+  return (command ? <Button variant={getClassState()}  onClick={() => changeState()}>
       {getIcon()}
-    </div> : <></>
+    </Button> : <></>)
 
 }
