@@ -5,7 +5,7 @@ import {CommandState} from "~/main/model/CommandState"; // import connect from m
 
 export abstract class AbstractMqttService {
 
-  protected static readonly client = connect("mqtt://localhost", {
+  protected static readonly client = connect(process.env.MQTT_URL, {
     auth: "spa:spa",
     port: 1883
   });

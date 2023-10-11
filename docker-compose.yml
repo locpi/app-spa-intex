@@ -25,6 +25,8 @@ services:
       - "80:80"
     environment:
       PRODUCTION: true
+      MONGO_URL: "mongodb://database:27017"
+      MQTT_URL: "mqtt://mosquito"
     profiles:
       - prod
     networks:

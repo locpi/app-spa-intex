@@ -1,4 +1,4 @@
-FROM node:14.21.3-bullseye-slim as build
+FROM arm64v8/node as build
 COPY frontend-app /usr/front
 WORKDIR /usr/front
 RUN npm i
@@ -8,8 +8,8 @@ FROM arm64v8/node
 WORKDIR /usr/back
 RUN apt-get update &&  apt-get install nginx -y
 COPY backend-app /usr/back
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /usr/front/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/sites-available/default.conf
+COPY --from=build /usr/front/dist /var/www/html
 RUN npm i
 EXPOSE 80
 
