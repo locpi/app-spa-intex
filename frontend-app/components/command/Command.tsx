@@ -4,9 +4,9 @@ import axios from "axios";
 import {CommandDescription} from "../../model/CommandDescription";
 
 export class Cammnd {
-  status: boolean;
+  status: string;
 
-  constructor(status: boolean) {
+  constructor(status: string) {
     this.status = status;
   }
 }
@@ -18,7 +18,7 @@ export default function Command({name,icon}:CommandDescription) {
 
 
   function getClassState() {
-    if (command?.status) {
+    if (command?.status === 'on') {
       return "command-state-active"
     }
     return "command-state-disabled"
