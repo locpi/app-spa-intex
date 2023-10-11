@@ -88,6 +88,7 @@ app.get("/api/v1/temperature", (req, res) => {
 temperatureEntityRepository.findAllWithParamsSort({},{date:-1}).then(data=>res.send(data))
 })
 app.listen(port, async () => {
+  Logger.info(process.env)
   Logger.info("Demarrage de l'app sur le port", port);
   Logger.info("Demarrage de flyway")
 });

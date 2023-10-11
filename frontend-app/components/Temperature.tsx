@@ -3,7 +3,7 @@ import './Temperature.css';
 import axios from "axios";
 
 export default function Temperature() {
-  const [temperature, setTemperature] = useState<number>(38);
+  const [temperature, setTemperature] = useState<number>(-1);
 
     axios.get('/api/v1/temperature')
     .then(function (response) {
