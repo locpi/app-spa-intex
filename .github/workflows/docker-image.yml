@@ -6,8 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     env:
-      DOCKER_REGISTRY: kemansel.azurecr.io
-      DOCKER_IMAGE: kmansel/express-me
+      DOCKER_REGISTRY: docker.registry.io
+      DOCKER_IMAGE: loicpincon/app-spa-intex-front:latest
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       DOCKER_TARGET_PLATFORM: linux/arm64/v8
