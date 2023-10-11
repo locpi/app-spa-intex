@@ -11,6 +11,7 @@ import {BubbleTopic} from "~/main/mqtt/BubbleTopic";
 import {FilterTopic} from "~/main/mqtt/FilterTopic";
 import {HeaterTopic} from "~/main/mqtt/HeaterTopic";
 import {TemperatureTopic} from "~/main/mqtt/TemperatureTopic";
+import {TemperatureEntityRepository} from "~/main/mongo/Temperature.entity";
 
 const port = 3000;
 const app = express();
@@ -24,6 +25,7 @@ const powerRepository = new PowerEntityRepository();
 const filterEntityRepository = new FilterEntityRepository();
 const heaterEntityRepository = new HeaterEntityRepository();
 const bubbleEntityRepository = new BubbleEntityRepository();
+const temperatureEntityRepository = new TemperatureEntityRepository();
 
 
 // HTTP SERVER CONFIG
@@ -83,7 +85,7 @@ app.get("/api/v1/command/:name", (req, res) => {
 })
 
 app.get("/api/v1/temperature", (req, res) => {
-
+temperatureEntityRepository.findAllWithParamsSort({},{date:-1}).then(data=>res.send(data))
 })
 app.listen(port, async () => {
   Logger.info("Demarrage de l'app sur le port", port);

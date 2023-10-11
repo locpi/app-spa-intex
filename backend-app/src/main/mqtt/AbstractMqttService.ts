@@ -29,7 +29,7 @@ export abstract class AbstractMqttService {
   }
 
   protected sendMessage(topic: string, message: any) {
-    const messageBody = message.toString();
+    const messageBody = message.toString().toLowerCase();
     Logger.trace("Publish new message incoming to " + topic + " --> " + messageBody)
     AbstractMqttService.client.publish(topic, messageBody);
   }

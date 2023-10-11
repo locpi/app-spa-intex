@@ -22,9 +22,9 @@ export class FilterTopic extends AbstractMqttService {
   }
 
   public changeStateOfFilter(state: CommandState) {
-    this.sendMessage("pool/command/filter", state);
+    this.sendMessage("pool/command/filter", EnumHelper.getCommandStateLibelle(state));
     if(!process.env.PRODUCTION){
-      this.sendMessage("pool/filter", state);
+      this.sendMessage("pool/filter", EnumHelper.getCommandStateLibelle(state));
     }
   }
 }

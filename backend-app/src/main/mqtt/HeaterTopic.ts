@@ -21,9 +21,9 @@ export class HeaterTopic extends AbstractMqttService {
   }
 
   public changeStateOfHeater(state: CommandState) {
-    this.sendMessage("pool/command/heater", state);
+    this.sendMessage("pool/command/heater", EnumHelper.getCommandStateLibelle(state));
     if (!process.env.PRODUCTION) {
-      this.sendMessage("pool/heater", state);
+      this.sendMessage("pool/heater", EnumHelper.getCommandStateLibelle(state));
     }
   }
 }

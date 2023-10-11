@@ -21,9 +21,9 @@ export class BubbleTopic extends AbstractMqttService {
   }
 
   public changeStateOfBubble(state: CommandState) {
-    this.sendMessage("pool/command/bubble", state);
+    this.sendMessage("pool/command/bubble", EnumHelper.getCommandStateLibelle(state));
     if(!process.env.PRODUCTION){
-      this.sendMessage("pool/bubble", state);
+      this.sendMessage("pool/bubble", EnumHelper.getCommandStateLibelle(state));
     }
   }
 }

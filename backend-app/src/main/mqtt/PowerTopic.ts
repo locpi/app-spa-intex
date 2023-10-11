@@ -21,9 +21,9 @@ export class PowerTopic extends AbstractMqttService {
   }
 
   public changeStateOfSpa(state: CommandState) {
-    this.sendMessage("pool/command/power", state);
+    this.sendMessage("pool/command/power", EnumHelper.getCommandStateLibelle(state));
     if(!process.env.PRODUCTION){
-      this.sendMessage("pool/power", state);
+      this.sendMessage("pool/power", EnumHelper.getCommandStateLibelle(state));
     }
   }
 }
