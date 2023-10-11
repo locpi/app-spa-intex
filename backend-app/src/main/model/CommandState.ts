@@ -1,10 +1,10 @@
 export enum CommandState {
-  ON = 1,
-  OFF = 0
+  ON = "on",
+  OFF = "off"
 }
 
 export class EnumHelper{
-  public static getCommandStateLibelle(test:any){
-    return CommandState[test];
+  public static getCommandStateLibelle(test:CommandState){
+    return test;
   }
 }

@@ -8,7 +8,7 @@ FROM arm64v8/node
 WORKDIR /usr/back
 RUN apt-get update &&  apt-get install nginx -y
 COPY backend-app /usr/back
-COPY nginx.conf /etc/nginx/sites-available/default.conf
+COPY nginx.conf /etc/nginx/sites-enabled/default.conf
 COPY --from=build /usr/front/dist /var/www/html
 RUN npm i
 EXPOSE 80
