@@ -19,10 +19,10 @@ export default function Home() {
             {/* <MoreInfos /> */}
           </div>
           <div className='right'>
-            <Command desc={new CommandDescription('power', <FaPowerOff/>)}/>
-            <Command desc={new CommandDescription('filter', <TbVacuumCleaner/>)}/>
-            <Command desc={new CommandDescription('heater', <GiHotSurface/>)}/>
-            <Command desc={new CommandDescription('bubble', <RiBubbleChartLine/>)}/>
+            <Command {...new CommandDescription('power', <FaPowerOff/>)}/>
+            <Command {...new CommandDescription('filter', <TbVacuumCleaner/>)}/>
+            <Command {...new CommandDescription('heater', <GiHotSurface/>)}/>
+            <Command {...new CommandDescription('bubble', <RiBubbleChartLine/>)}/>
           </div>
       </div>
     </div>

@@ -1,12 +1,17 @@
 import './Command.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {CommandDescription} from "../../model/CommandDescription";
 
 export class Cammnd {
   status: boolean;
+
+  constructor(status: boolean) {
+    this.status = status;
+  }
 }
 
-export default function Command({desc}) {
+export default function Command({name,icon}:CommandDescription) {
 
 
   const [command, setCommand] = useState<Cammnd>()
@@ -22,7 +27,7 @@ export default function Command({desc}) {
 
 
   const getIcon = () => {
-    return desc.icon
+    return icon;
   };
 
   useEffect(() => {
@@ -32,7 +37,7 @@ export default function Command({desc}) {
 
 
   function getData() {
-    axios.get('/api/v1/command/' + desc.name)
+    axios.get('/api/v1/command/' + name)
     .then(function (response) {
       const data = response.data[0];
       setCommand(data)
@@ -46,8 +51,8 @@ export default function Command({desc}) {
     });
   }
 
-  function update(state) {
-    axios.post('/api/v1/command',{command:desc.name,status:state})
+  function update(state:any) {
+    axios.post('/api/v1/command',{command:name,status:state})
     .then(function (response) {
       const data = response.data;
     })
@@ -62,8 +67,7 @@ export default function Command({desc}) {
 
 
   function changeState() {
-    const commandUpdate = new Cammnd();
-    commandUpdate.status = !command!.status;
+    const commandUpdate = new Cammnd(!command!.status);
     setCommand(command => ({
       ...command,
       ...commandUpdate
@@ -71,9 +75,8 @@ export default function Command({desc}) {
     update(!command!.status);
   }
 
-  return (<div>
-    {command ? <div className={'command ' + getClassState()} onClick={() => changeState()}>
+  return command ? <div className={'command ' + getClassState()} onClick={() => changeState()}>
       {getIcon()}
-    </div> : <></>}
-  </div>)
+    </div> : <></>
+
 }

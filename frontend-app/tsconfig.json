@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "module": "CommonJS", // Import non-ES modules as default imports.
     "esModuleInterop": true, // Target latest version of ECMAScript.
     "target": "ES2022", // Process & infer types from .js files.

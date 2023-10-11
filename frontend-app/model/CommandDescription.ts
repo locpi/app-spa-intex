@@ -1,7 +1,7 @@
 export class CommandDescription{
 
-  private name:string;
-  private icon:any;
+  public name:string;
+  public icon:any;
 
 
   constructor(name: string, icon: any) {
