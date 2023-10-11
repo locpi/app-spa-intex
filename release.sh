@@ -1,2 +1,3 @@
-sudo docker build -t loicpincon/app-spa-intex-front:latest .
-## docker push loicpincon/app-spa-intex-front:latest
+
+docker buildx build --platform linux/arm/v8 -t loicpincon/app-spa-intex-front:latest --push .
+

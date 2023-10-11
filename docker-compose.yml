@@ -20,7 +20,7 @@ services:
     networks:
       spa-intex-app-network:
   spa-app:
-    image: loicpincon/app-spa-intex-front:latest
+    image: loicpincon/app-spa-intex:latest
     ports:
       - "80:80"
     environment:
