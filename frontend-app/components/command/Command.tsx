@@ -67,12 +67,17 @@ export default function Command({name,icon}:CommandDescription) {
 
 
   function changeState() {
-    const commandUpdate = new Cammnd(!command!.status);
+    if (command!.status === 'on') {
+      command!.status = 'off'
+    } else {
+      command!.status = 'on';
+    }
+    const commandUpdate = new Cammnd(command!.status);
     setCommand(command => ({
       ...command,
       ...commandUpdate
     }));
-    update(!command!.status);
+    update(command!.status);
   }
 
   return command ? <div className={'command ' + getClassState()} onClick={() => changeState()}>
