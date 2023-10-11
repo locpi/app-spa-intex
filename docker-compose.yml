@@ -1,13 +1,13 @@
 version: "3.7"
 services:
   database:
-    image: docker.io/andresvidal/rpi3-mongodb3:latest
+    image: arm64v8/mongo:latest
     networks:
       spa-intex-app-network:
     ports:
-      - '27018:27017'
+      - '27017:27017'
     volumes:
-      - ./dbdata6:/data/db
+      - dbdata:/data/db
   mosquito:
     container_name: mosquito
     image: eclipse-mosquitto:2.0.18
@@ -32,3 +32,5 @@ services:
 
 networks:
   spa-intex-app-network:
+volumes:
+  dbdata:

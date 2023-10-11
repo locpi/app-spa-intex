@@ -10,6 +10,7 @@ import {FilterEntityRepository} from "~/main/mongo/Filter.entity";
 import {BubbleTopic} from "~/main/mqtt/BubbleTopic";
 import {FilterTopic} from "~/main/mqtt/FilterTopic";
 import {HeaterTopic} from "~/main/mqtt/HeaterTopic";
+import {TemperatureTopic} from "~/main/mqtt/TemperatureTopic";
 
 const port = 3000;
 const app = express();
@@ -17,7 +18,7 @@ const powerTopic = new PowerTopic();
 const bubbleTopic = new BubbleTopic();
 const filterTopic = new FilterTopic();
 const heaterTopic = new HeaterTopic();
-
+const temperatureTopic = new TemperatureTopic();
 
 const powerRepository = new PowerEntityRepository();
 const filterEntityRepository = new FilterEntityRepository();
@@ -77,8 +78,14 @@ app.get("/api/v1/command/:name", (req, res) => {
       break;
 
   }
+
+
 })
 
+app.get("/api/v1/temperature", (req, res) => {
+
+})
 app.listen(port, async () => {
   Logger.info("Demarrage de l'app sur le port", port);
+  Logger.info("Demarrage de flyway")
 });
