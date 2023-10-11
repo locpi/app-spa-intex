@@ -4,7 +4,7 @@ WORKDIR /usr/front
 RUN npm i
 RUN npm run build
 
-FROM node:14.21.3-bullseye-slim
+FROM arm64v8/node
 WORKDIR /usr/back
 RUN apt-get update &&  apt-get install nginx -y
 COPY backend-app /usr/back
