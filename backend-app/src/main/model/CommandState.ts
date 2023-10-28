@@ -1,6 +1,7 @@
 export enum CommandState {
   ON = "on",
-  OFF = "off"
+  OFF = "off",
+  STANDBY="standby"
 }
 
 export class EnumHelper{

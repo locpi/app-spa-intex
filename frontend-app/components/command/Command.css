@@ -17,3 +17,31 @@
 .command-state-disabled {
   color: red;
 }
+
+.button-action{
+ text-align: center;
+ padding-top: 2em;
+}
+
+.icon svg{
+  font-size: 120px;
+  opacity: 1;
+  text-align: center;
+   border-radius: 50%;
+   background-color: rgba(63, 41, 127, 0.45);
+}
+
+.icon-active svg{
+color: green;
+}
+
+
+
+.icon-inactive svg{
+  color: gray;
+}
+
+.icon-standby svg{
+  color: orange;
+
+}

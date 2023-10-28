@@ -1,6 +1,7 @@
 import {connect} from "mqtt";
 import {Logger} from "~/main/config/Logger";
 import {CommandState} from "~/main/model/CommandState"; // import connect from mqtt
+import { PowerCommandException } from "../model/PowerState";
 
 
 export abstract class AbstractMqttService {
@@ -34,7 +35,16 @@ export abstract class AbstractMqttService {
     AbstractMqttService.client.publish(topic, messageBody);
   }
 
-  protected mapToCommandState(message:string){
-    return message === "on" ? CommandState.ON : CommandState.OFF
+  protected mapToCommandState(message:string):CommandState{
+   if(message==='on'){
+    return CommandState.ON;
+   }
+   if(message==='off'){
+    return CommandState.OFF;
+   }
+   if(message==='standby'){
+    return CommandState.STANDBY;
+   }
+   throw new PowerCommandException("Unexpected command found "+message);
   }
 }

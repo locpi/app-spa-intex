@@ -2,7 +2,8 @@ import './Command.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {CommandDescription} from "../../model/CommandDescription";
-import {Button} from "react-bootstrap";
+import {Button, Card, Col, Row} from "react-bootstrap";
+import {AiOutlineFire} from "react-icons/ai";
 
 export class Cammnd {
   status: string;
@@ -12,36 +13,35 @@ export class Cammnd {
   }
 }
 
-export default function Command({name,icon}:CommandDescription) {
-
+export default function Command({name,label,icon,setPower}) {
 
   const [command, setCommand] = useState<Cammnd>()
 
 
-  function getClassState() {
-    if (command?.status === 'on') {
-      return "success"
-    }
-    return "secondary"
-
-  }
-
-
-  const getIcon = () => {
-    return icon;
-  };
+  
 
   useEffect(() => {
     getData()
 
   }, [])
 
+function notifyPower(status:string){
+  if(setPower){
+    if(status==='on'){
+      setPower(true);
+    }else{
+      setPower(false);
+    }
+  }
+}
 
   function getData() {
     axios.get('/api/v1/command/' + name)
     .then(function (response) {
       const data = response.data[0];
       setCommand(data)
+      notifyPower(data.status)
+      
     })
     .catch(function (error) {
       // handle error
@@ -73,6 +73,8 @@ export default function Command({name,icon}:CommandDescription) {
     } else {
       command!.status = 'on';
     }
+    notifyPower(command!.status)
+
     const commandUpdate = new Cammnd(command!.status);
     setCommand(command => ({
       ...command,
@@ -81,8 +83,29 @@ export default function Command({name,icon}:CommandDescription) {
     update(command!.status);
   }
 
-  return (command ? <Button variant={getClassState()}  onClick={() => changeState()}>
-      {getIcon()}
-    </Button> : <></>)
+  function getBackgroundColor(): import("csstype").Property.BackgroundColor | undefined {
+    switch(command?.status){
+      case "on":return "rgb(38, 143, 38)";
+      case "standby":return "rgb(191, 146, 33)";
+      case "off":return "rgb(124, 129, 124)";
 
-}
+    }
+  }
+
+  function active() {
+    if (command?.status === 'on') {
+      return "icon-active"
+    }
+    if(command?.status === 'standby'){
+      return "icon-standby"
+    }
+    return "icon-inactive"
+  }
+
+  return (command ?
+    
+  <div onClick={changeState} className={'button-action'}>
+    <div  className={'icon '+active()}>{icon}</div>
+  </div>
+  
+ : <></>)}

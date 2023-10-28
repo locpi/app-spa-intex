@@ -80,10 +80,14 @@ app.get("/api/v1/command/:name", (req, res) => {
 })
 
 app.get("/api/v1/temperature", (req, res) => {
-temperatureEntityRepository.findAllWithParamsSort({},{date:-1}).then(data=>res.send(data))
+  var date = new Date();
+  date.setDate(date.getDate() -2);
+temperatureEntityRepository.findAllWithParamsSort({date: {
+  $gte: date,
+  $lt: new Date()
+}} ,{date:-1}).then(data=>res.send(data))
 })
+
 app.listen(port, async () => {
-  Logger.info(process.env)
   Logger.info("Demarrage de l'app sur le port", port);
-  Logger.info("Demarrage de flyway")
 });
