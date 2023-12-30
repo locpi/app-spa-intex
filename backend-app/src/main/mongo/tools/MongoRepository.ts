@@ -1,5 +1,6 @@
-import {Logger} from "~/main/config/Logger";
-import {MongoConnect} from "~/main/mongo/tools/MongoConnect";
+import { ObjectId } from "mongodb";
+import { Logger } from "~/main/config/Logger";
+import { MongoConnect } from "~/main/mongo/tools/MongoConnect";
 
 
 export interface MongoEntity {
@@ -50,13 +51,14 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
   public async findAllWithParamsSort(param: any, sort: any): Promise<E[]> {
     const client = await super.getClient();
     const collection = await client.db().collection(this.collection);
-    return await collection.find(param, {sort: sort}).toArray();
+    return await collection.find(param, { sort: sort }).toArray();
   }
 
-  public async findFirstWithParamsSort(param: any, sort: any): Promise<E[]> {
+  public async findFirstWithParamsSort(param: any, sort: any): Promise<E> {
     const client = await super.getClient();
     const collection = await client.db().collection(this.collection);
-    return await collection.find(param, {sort: sort}).toArray();
+    const array = await collection.find(param, { sort: sort }).toArray();
+    return array[0];
   }
 
 
@@ -69,6 +71,15 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
   protected async getCollection() {
     const client = await super.getClient();
     return await client.db().collection(this.collection);
+  }
+
+  public async deleteById(id: any): Promise<E> {
+    const client = await super.getClient();
+    const query = { _id: new ObjectId(id) };
+    const collection = await client.db().collection(this.collection);
+    const test = await collection.deleteOne(query);
+    console.log(test)
+    return test;
   }
 
   private getEntity(elem: E): any {

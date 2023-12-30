@@ -1,4 +1,4 @@
-fronnode_modules
+frontend-app/node_modules
+dbdata
 build
 .dockerignore
-Dockerfile

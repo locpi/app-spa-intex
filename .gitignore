@@ -3,3 +3,6 @@ backend-app/node_modules
 .gitignore
 dbdata/
 tools/mqtt/log
+.idea/
+backend-app/.idea/
+front-app/.idea/
