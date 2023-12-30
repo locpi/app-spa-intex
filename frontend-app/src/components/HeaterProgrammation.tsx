@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, ListGroup, Badge, Button } from "react-bootstrap";
 import SpaProgrammerModal, { SpaProgrammerModalBody } from "./modal/SpaProgrammer.modal";
 import axios from "axios";
+import moment from 'moment';
 
 
 
@@ -46,7 +47,7 @@ export default function HeaterProgrammation() {
                     heaterProgrammationBody.map(elem =>
                         <ListGroup.Item onDoubleClick={() => deleteElem(elem)} key={elem.date.toString()} as="li" className="d-flex justify-content-between align-items-start">
                             <div className="ms-2 me-auto">
-                                <div className="fw-bold">{elem.date.toString()}</div>
+                                <div className="fw-bold">{moment(elem?.date).format('DD/MM/YYYY HH:mm')}</div>
                             </div>
                             <Badge bg="primary" pill>
                                 {elem.temperature}°C

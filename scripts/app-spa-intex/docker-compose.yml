@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  database:
+    image: mongo:4.4.6
+    networks:
+      spa-intex-app-network:
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./dbdata:/data/db
+  mosquito:
+    container_name: mosquito
+    image: eclipse-mosquitto:2.0.18
+    volumes:
+      - ./tools/mqtt/:/mosquitto/config/
+      - ./tools/mqtt/log/:/mosquitto/log/
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      spa-intex-app-network:
+  spa-app:
+    image: loicpincon/app-spa-intex:latest
+    ports:
+      - "80:80"
+    environment:
+      PRODUCTION: true
+      MONGO_URL: "mongodb://database:27017"
+      MQTT_URL: "mqtt://mosquito"
+    profiles:
+      - prod
+    networks:
+      spa-intex-app-network:
+
+networks:
+  spa-intex-app-network:
+volumes:
+  dbdata:

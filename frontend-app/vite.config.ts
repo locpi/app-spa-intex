@@ -1,12 +1,15 @@
 // vite.config.js
-import {defineConfig} from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 const defaultConfig = {
   plugins: [react()],
+  build: {
+    chunkSizeWarningLimit: 1600,
+  },
 }
 
-export default defineConfig(({ mode}) => {
+export default defineConfig(({ mode }) => {
   const isDev = mode === 'development'
   if (isDev) {
     return {
