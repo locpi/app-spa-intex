@@ -108,6 +108,17 @@ app.get("/api/v1/temperature", (req, res) => {
   }, { date: -1 }).then(data => res.send(data))
 })
 
+app.get("/api/v1/voice/temperature", (req, res) => {
+  var date = new Date();
+  date.setDate(date.getDate() - 2);
+  temperatureEntityRepository.findAllWithParamsSort({
+    date: {
+      $gte: date,
+      $lt: new Date()
+    }
+  }, { date: -1 }).then(data => res.send(data[0].actual))
+})
+
 app.get("/api/v1/spa-informations", (req, res) => {
   spaInformationEntityRepository.findFirstWithParamsSort({}, { date: -1 }).then(data => {
     res.send(data)
