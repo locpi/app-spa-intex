@@ -21,6 +21,7 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
 
   public save(elem: E) {
     super.getClient().then(async (client) => {
+      console.log(this.collection)
       const collection = await client.db().collection(this.collection);
       const object = await collection.findOne(elem._getId());
       if (object) {
@@ -77,9 +78,7 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
     const client = await super.getClient();
     const query = { _id: new ObjectId(id) };
     const collection = await client.db().collection(this.collection);
-    const test = await collection.deleteOne(query);
-    console.log(test)
-    return test;
+    return await collection.deleteOne(query);
   }
 
   private getEntity(elem: E): any {

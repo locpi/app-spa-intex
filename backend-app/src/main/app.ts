@@ -116,7 +116,7 @@ app.get("/api/v1/voice/temperature", (req, res) => {
       $gte: date,
       $lt: new Date()
     }
-  }, { date: -1 }).then(data => res.send(data[0].actual))
+  }, { date: -1 }).then(data => res.send(data[0]))
 })
 
 app.get("/api/v1/spa-informations", (req, res) => {

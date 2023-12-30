@@ -17,7 +17,18 @@ export default function Temperature() {
 
 
   useEffect(() => {
-
+    axios.get('/api/v1/temperature')
+      .then(function (response) {
+        const data = response.data[0];
+        setTemperature(data)
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
   }, [])
 
 
