@@ -8,7 +8,7 @@ Bienvenue sur l'application app-spa-intex. Cette application permet de contrôle
 Pour lancer l'application, il faut exécuter le fichier suivant 
 
 ```
-curl -s "https://github.com/locpi/app-spa-intex/releases/download/latest/install.sh" | bash
+curl -LO "https://github.com/locpi/app-spa-intex/releases/download/latest/install.sh" | bash
 ```
 
 
