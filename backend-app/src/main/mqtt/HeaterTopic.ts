@@ -1,8 +1,8 @@
-import {AbstractMqttService} from "~/main/mqtt/AbstractMqttService";
+import { AbstractMqttService } from "~/main/mqtt/AbstractMqttService";
 
-import {Logger} from "~/main/config/Logger";
-import {CommandState, EnumHelper} from "~/main/model/CommandState";
-import {HeaterEntity, HeaterEntityRepository} from "~/main/mongo/Heater.entity";
+import { Logger } from "~/main/config/Logger";
+import { CommandState, EnumHelper } from "~/main/model/CommandState";
+import { HeaterEntity, HeaterEntityRepository } from "~/main/mongo/Heater.entity";
 
 export class HeaterTopic extends AbstractMqttService {
   private readonly heaterEntityRepository: HeaterEntityRepository = new HeaterEntityRepository();
@@ -21,9 +21,10 @@ export class HeaterTopic extends AbstractMqttService {
   }
 
   public changeStateOfHeater(state: CommandState) {
-    this.sendMessage("pool/command/heater",state);
+    Logger.info("oups")
+    this.sendMessage("pool/command/heater", state);
     if (!process.env.PRODUCTION) {
-      this.sendMessage("pool/heater",state);
+      this.sendMessage("pool/heater", state);
     }
   }
 }

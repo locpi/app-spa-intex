@@ -1,38 +1,22 @@
-import {MongoEntity, MongoRepository} from "~/main/mongo/tools/MongoRepository";
+import { MongoEntity, MongoRepository } from "~/main/mongo/tools/MongoRepository";
 import { v4 as uuidv4 } from 'uuid';
 
-export class SpaInformationEntity implements MongoEntity {
-  public  readonly id: string;
-  public  readonly date: Date;
+export class SpaInformationEntity extends MongoEntity {
+  public readonly date: Date;
 
-  public  spaStatus: string;
-  public  ip: string;
-  public  model: string;
-  public  rssi: string;
-  public  version: string;
+  public spaStatus: string;
+  public ip: string;
+  public model: string;
+  public rssi: string;
+  public version: string;
 
 
   constructor() {
-    this.id=uuidv4();
+    super({ id: uuidv4() })
     this.date = new Date();
   }
 
-  _getId(): any {
-    return {
-      id: this.id,
-      date: this.date
-    }
-  }
 
-  getOtherField(): any {
-    return {
-      spaStatus: this.spaStatus,
-      ip: this.ip,
-      model:this.model,
-      rssi:this.rssi,
-      version: this.version
-    }
-  }
 
 }
 

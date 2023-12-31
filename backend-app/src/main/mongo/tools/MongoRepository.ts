@@ -3,10 +3,12 @@ import { Logger } from "~/main/config/Logger";
 import { MongoConnect } from "~/main/mongo/tools/MongoConnect";
 
 
-export interface MongoEntity {
-  _getId(): any;
+export class MongoEntity {
+  public id: any;
 
-  getOtherField(): any;
+  constructor(id: any) {
+    this.id = id;
+  }
 }
 
 export abstract class MongoRepository<E extends MongoEntity> extends MongoConnect {
@@ -20,20 +22,26 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
   }
 
   public save(elem: E) {
-    super.getClient().then(async (client) => {
-      const collection = await client.db().collection(this.collection);
-      const object = await collection.findOne(elem._getId());
-      if (object) {
-        Logger.debug("[" + this.collection + "] update object exist with id : " + elem._getId());
-        const newvalues = {
-          $set: elem.getOtherField()
-        };
-        await collection.updateOne(elem._getId(), newvalues);
-      } else {
-        Logger.debug("[" + this.collection + "] add new object with id : " + elem._getId());
-        await collection.insertOne(this.getEntity(elem));
-      }
-    });
+    try {
+      super.getClient().then(async (client) => {
+        const collection = await client.db().collection(this.collection);
+
+        const object = await collection.findOne({ id: elem.id });
+        if (object) {
+          Logger.debug("[" + this.collection + "] update object exist with id : " + elem.id);
+          const newvalues = {
+            $set: elem
+          };
+          await collection.updateOne({ id: elem.id }, newvalues);
+        } else {
+          Logger.debug("[" + this.collection + "] add new object with id : " + elem.id);
+          await collection.insertOne(elem);
+        }
+      });
+    } catch (e) {
+      Logger.error(elem)
+    }
+
   }
 
   public async findAll(): Promise<E[]> {
@@ -57,8 +65,7 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
   public async findFirstWithParamsSort(param: any, sort: any): Promise<E> {
     const client = await super.getClient();
     const collection = await client.db().collection(this.collection);
-    const array = await collection.find(param, { sort: sort }).toArray();
-    return array[0];
+    return await collection.findOne(param, { sort: sort }).toArray();
   }
 
 
@@ -78,12 +85,5 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
     const query = { _id: new ObjectId(id) };
     const collection = await client.db().collection(this.collection);
     return await collection.deleteOne(query);
-  }
-
-  private getEntity(elem: E): any {
-    return {
-      ...elem._getId(),
-      ...elem.getOtherField(),
-    };
   }
 }

@@ -1,15 +1,16 @@
-import { RegisterSessionEntityRepository } from "../mongo/RegisterSession.entity";
+import { RegisterSession, RegisterSessionEntityRepository } from "../mongo/RegisterSession.entity";
 import { TemperatureEntityRepository } from "../mongo/Temperature.entity";
 import { Job, scheduleJob } from "node-schedule"
 import { HeaterTopic } from "../mqtt/HeaterTopic";
 import { CommandState } from "../model/CommandState";
 import { Logger } from "../config/Logger";
+import { HeaterService } from "./HeaterService";
 export class LaunchHeaterAutoService {
 
     private temperatureEntityRepository = new TemperatureEntityRepository();
     private registerSessionEntityRepository = new RegisterSessionEntityRepository();
     private heaterTopic = new HeaterTopic();
-
+    private heaterService: HeaterService = new HeaterService();
     private jobAuto: Job;
 
     public launch(): void {
@@ -27,17 +28,22 @@ export class LaunchHeaterAutoService {
             const actualTemp = temps[0].actual;
             const now = new Date();
             this.registerSessionEntityRepository.findAll().then(sessions => {
-                sessions.forEach(session => {
+                sessions.forEach(async (session: RegisterSession) => {
                     if (session.date < new Date()) {
                         session.finish = true;
-                        //this.registerSessionEntityRepository.save(session);
+                        console.log('aha')
+                        console.log(typeof session)
+                        this.registerSessionEntityRepository.save(session);
                     }
                     var hours = Math.abs(session.date.getTime() - now.getTime()) / 36e5;
                     const deltaTemp = Math.trunc(Math.abs(session.temperature - actualTemp));
                     const degreWinIfStartNow = Math.trunc(degrePerHour * hours);
                     if (deltaTemp == degreWinIfStartNow) {
                         Logger.info('demarrage de la chauffe')
-                        this.heaterTopic.changeStateOfHeater(CommandState.ON);
+                        const status = await this.heaterService.getStatus();
+                        if (status.status == CommandState.OFF) {
+                            this.heaterTopic.changeStateOfHeater(CommandState.ON);
+                        }
                     }
                 })
             })
