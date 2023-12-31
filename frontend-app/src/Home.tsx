@@ -49,7 +49,10 @@ export default function Home() {
     <div className={'home'}>
       <Row className='header'>
         <Col>
-          <h1 className={"title"}>INTEX</h1>
+          <h1 className={"title"}>
+            {spaInformations ? spaInformations.model : <></>}
+
+          </h1>
 
         </Col>
         <Col>

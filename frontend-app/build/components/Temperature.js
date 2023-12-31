@@ -7,6 +7,7 @@ exports.TemperatureItem = void 0;
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
 require("./css/Temperature.css");
+const axios_1 = __importDefault(require("axios"));
 const react_gauge_component_1 = __importDefault(require("react-gauge-component"));
 const react_bootstrap_1 = require("react-bootstrap");
 const moment_1 = __importDefault(require("moment"));
@@ -18,6 +19,18 @@ exports.TemperatureItem = TemperatureItem;
 function Temperature() {
     const [temperature, setTemperature] = (0, react_1.useState)();
     (0, react_1.useEffect)(() => {
+        axios_1.default.get('/api/v1/temperature')
+            .then(function (response) {
+            const data = response.data[0];
+            setTemperature(data);
+        })
+            .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+            .finally(function () {
+            // always executed
+        });
     }, []);
     return ((0, jsx_runtime_1.jsx)("div", { className: 'justify-content-sm-center', children: (0, jsx_runtime_1.jsxs)(react_bootstrap_1.Row, { children: [(0, jsx_runtime_1.jsx)(react_gauge_component_1.default, { type: "semicircle", arc: {
                         width: 0.2,

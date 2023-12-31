@@ -21,7 +21,6 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
 
   public save(elem: E) {
     super.getClient().then(async (client) => {
-      console.log(this.collection)
       const collection = await client.db().collection(this.collection);
       const object = await collection.findOne(elem._getId());
       if (object) {

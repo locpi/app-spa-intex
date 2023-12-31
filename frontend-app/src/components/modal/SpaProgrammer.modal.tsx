@@ -5,7 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import axios from 'axios';
 export class SpaProgrammerModalParam {
   show: boolean = false;
-  handleClose: any;
+  setShow: any;
   addHeater: any;
 }
 
@@ -16,11 +16,12 @@ export class SpaProgrammerModalBody {
   setHeaterProgrammationBody: any;
 }
 
-export default function SpaProgrammerModal({ show, handleClose, addHeater }: SpaProgrammerModalParam) {
+export default function SpaProgrammerModal({ show, setShow, addHeater }: SpaProgrammerModalParam) {
   const spaProgrammerModalBody = new SpaProgrammerModalBody();
   const registerSession = (spaProgrammerModalBody: SpaProgrammerModalBody) => {
     createSession(spaProgrammerModalBody)
   }
+  const handleClose = () => setShow(false);
 
   function createSession(body: SpaProgrammerModalBody) {
     axios.post('/api/v1/register-session', body)

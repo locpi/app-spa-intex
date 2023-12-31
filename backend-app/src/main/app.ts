@@ -77,6 +77,16 @@ app.post("/api/v1/register-session", (req, res) => {
   res.send()
 })
 
+app.post("/api/v1/temperature-set", (req, res) => {
+  const obj = req.body;
+  temperatureTopic.changeTempSet(obj.expected)
+  res.send()
+})
+
+
+
+
+
 app.get("/api/v1/command/:name", (req, res) => {
   switch (req.params.name) {
     case "power":
@@ -107,6 +117,7 @@ app.get("/api/v1/temperature", (req, res) => {
     }
   }, { date: -1 }).then(data => res.send(data))
 })
+
 
 app.get("/api/v1/voice/temperature", (req, res) => {
   var date = new Date();

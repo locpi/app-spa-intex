@@ -4,6 +4,7 @@ import axios from "axios";
 import GaugeComponent from 'react-gauge-component';
 import { Row } from 'react-bootstrap';
 import moment from 'moment';
+import ChangeTemperatureSetModal from './modal/ChangeTemperatureSet.modal';
 
 
 export class TemperatureItem {
@@ -14,6 +15,7 @@ export class TemperatureItem {
 
 export default function Temperature() {
   const [temperature, setTemperature] = useState<TemperatureItem>();
+  const [show, setShow] = useState(false);
 
 
   useEffect(() => {
@@ -38,11 +40,12 @@ export default function Temperature() {
 
 
   return (
+
     <div className='justify-content-sm-center'>
-      <Row>
+      <ChangeTemperatureSetModal show={show} setShow={setShow} />
+
+      <Row onClick={() => setShow(!show)}>
         <GaugeComponent
-
-
           type="semicircle"
           arc={{
             width: 0.2,

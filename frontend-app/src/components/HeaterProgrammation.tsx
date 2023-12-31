@@ -11,7 +11,6 @@ export default function HeaterProgrammation() {
     const [show, setShow] = useState(false);
     const [heaterProgrammationBody, setHeaterProgrammationBody] = useState<SpaProgrammerModalBody[]>([]);
 
-    const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     useEffect(() => {
@@ -62,7 +61,7 @@ export default function HeaterProgrammation() {
             </Button>
         </Card.Footer>
     </Card>
-        <SpaProgrammerModal handleClose={handleClose} show={show} addHeater={addHeater} /></div>
+        <SpaProgrammerModal setShow={setShow} show={show} addHeater={addHeater} /></div>
     )
 
 }
