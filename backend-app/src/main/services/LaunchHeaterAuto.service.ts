@@ -30,13 +30,13 @@ export class LaunchHeaterAutoService {
                 sessions.forEach(session => {
                     if (session.date < new Date()) {
                         session.finish = true;
-                        this.registerSessionEntityRepository.save(session);
+                        //this.registerSessionEntityRepository.save(session);
                     }
                     var hours = Math.abs(session.date.getTime() - now.getTime()) / 36e5;
                     const deltaTemp = Math.trunc(Math.abs(session.temperature - actualTemp));
                     const degreWinIfStartNow = Math.trunc(degrePerHour * hours);
                     if (deltaTemp == degreWinIfStartNow) {
-                        console.log('demarrage de la chauffe')
+                        Logger.info('demarrage de la chauffe')
                         this.heaterTopic.changeStateOfHeater(CommandState.ON);
                     }
                 })

@@ -1,0 +1,15 @@
+.item {
+    width: 100%;
+    background-color: rgba(10, 20, 61);
+    border-color: rgba(10, 20, 61);
+    color: white;
+    text-align: center;
+    font-size: 30px;
+}
+
+
+.block-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

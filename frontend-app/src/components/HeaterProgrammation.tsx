@@ -38,29 +38,30 @@ export default function HeaterProgrammation() {
             });
     }
 
-    return (<div><Card className="text-center" style={{ color: "white", backgroundColor: "rgb(10,20,58)", width: '100%' }}>
-        <Card.Title>Programmation de chauffe</Card.Title>
-        <Card.Body>
-            <ListGroup as="ol">
-                {heaterProgrammationBody ?
-                    heaterProgrammationBody.map(elem =>
-                        <ListGroup.Item onDoubleClick={() => deleteElem(elem)} key={elem.date.toString()} as="li" className="d-flex justify-content-between align-items-start">
-                            <div className="ms-2 me-auto">
-                                <div className="fw-bold">{moment(elem?.date).format('DD/MM/YYYY HH:mm')}</div>
-                            </div>
-                            <Badge bg="primary" pill>
-                                {elem.temperature}°C
-                            </Badge>
-                        </ListGroup.Item>) : <></>
-                }
-            </ListGroup>
-        </Card.Body>
-        <Card.Footer className="text-muted">
-            <Button variant="primary" style={{ backgroundColor: "rgb(10,20,61)", width: '100%' }} onClick={handleShow}>
-                Programmer une session
-            </Button>
-        </Card.Footer>
-    </Card>
+    return (<div>
+        <Card className="text-center" style={{ color: "white", backgroundColor: "rgb(10,20,58)", width: '100%' }}>
+            <Card.Title>Programmation de chauffe</Card.Title>
+            <Card.Body>
+                <ListGroup as="ol">
+                    {heaterProgrammationBody ?
+                        heaterProgrammationBody.map(elem =>
+                            <ListGroup.Item onDoubleClick={() => deleteElem(elem)} key={elem.date.toString()} as="li" className="d-flex justify-content-between align-items-start">
+                                <div className="ms-2 me-auto">
+                                    <div className="fw-bold">{moment(elem?.date).format('DD/MM/YYYY HH:mm')}</div>
+                                </div>
+                                <Badge bg="primary" pill>
+                                    {elem.temperature}°C
+                                </Badge>
+                            </ListGroup.Item>) : <></>
+                    }
+                </ListGroup>
+            </Card.Body>
+            <Card.Footer className="text-muted">
+                <Button variant="primary" style={{ backgroundColor: "rgb(10,20,61)", width: '100%' }} onClick={handleShow}>
+                    Programmer une session
+                </Button>
+            </Card.Footer>
+        </Card>
         <SpaProgrammerModal setShow={setShow} show={show} addHeater={addHeater} /></div>
     )
 
