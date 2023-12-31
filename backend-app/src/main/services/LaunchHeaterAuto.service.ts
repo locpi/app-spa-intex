@@ -27,12 +27,10 @@ export class LaunchHeaterAutoService {
         }, { date: -1 }).then(temps => {
             const actualTemp = temps[0].actual;
             const now = new Date();
-            this.registerSessionEntityRepository.findAll().then(sessions => {
+            this.registerSessionEntityRepository.findAllWithParams({ finish: false }).then(sessions => {
                 sessions.forEach(async (session: RegisterSession) => {
                     if (session.date < new Date()) {
                         session.finish = true;
-                        console.log('aha')
-                        console.log(typeof session)
                         this.registerSessionEntityRepository.save(session);
                     }
                     var hours = Math.abs(session.date.getTime() - now.getTime()) / 36e5;

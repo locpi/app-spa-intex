@@ -65,7 +65,7 @@ export abstract class MongoRepository<E extends MongoEntity> extends MongoConnec
   public async findFirstWithParamsSort(param: any, sort: any): Promise<E> {
     const client = await super.getClient();
     const collection = await client.db().collection(this.collection);
-    return await collection.findOne(param, { sort: sort }).toArray();
+    return await collection.find(param, { sort: sort }).toArray()[0];
   }
 
 
