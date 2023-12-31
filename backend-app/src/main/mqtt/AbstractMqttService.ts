@@ -1,25 +1,31 @@
-import {connect} from "mqtt";
-import {Logger} from "~/main/config/Logger";
-import {CommandState} from "~/main/model/CommandState"; // import connect from mqtt
+import { MqttClient, connect } from "mqtt";
+import { Logger } from "~/main/config/Logger";
+import { CommandState } from "~/main/model/CommandState"; // import connect from mqtt
 import { PowerCommandException } from "../model/PowerState";
 
 
 export abstract class AbstractMqttService {
 
-  protected static readonly client = connect(process.env.MQTT_URL|| 'mqtt://localhost', {
-    auth: "spa:spa",
-    port: 1883
-  });
+  protected static client: MqttClient;
+
+
 
   protected constructor() {
-    AbstractMqttService.client.on("connect", (err) => {
-      Logger.info("MQTT client connected")
+    if (!AbstractMqttService.client) {
+      AbstractMqttService.client = connect(process.env.MQTT_URL || 'mqtt://localhost', {
+        auth: "spa:spa",
+        port: 1883
+      });
+      AbstractMqttService.client.on("connect", (err) => {
+        Logger.info("MQTT client connected")
 
-    });
+      });
+    }
+
   }
 
   protected subscribeTo(topic: string, callback: any) {
-    AbstractMqttService.client.subscribe(topic, {qos: 1}, (err) => {
+    AbstractMqttService.client.subscribe(topic, { qos: 1 }, (err) => {
     });
     AbstractMqttService.client.on("message", (topicA, message, packet) => {
       if (topic === topicA) {
@@ -35,16 +41,16 @@ export abstract class AbstractMqttService {
     AbstractMqttService.client.publish(topic, messageBody);
   }
 
-  protected mapToCommandState(message:string):CommandState{
-   if(message==='on'){
-    return CommandState.ON;
-   }
-   if(message==='off'){
-    return CommandState.OFF;
-   }
-   if(message==='standby'){
-    return CommandState.STANDBY;
-   }
-   throw new PowerCommandException("Unexpected command found "+message);
+  protected mapToCommandState(message: string): CommandState {
+    if (message === 'on') {
+      return CommandState.ON;
+    }
+    if (message === 'off') {
+      return CommandState.OFF;
+    }
+    if (message === 'standby') {
+      return CommandState.STANDBY;
+    }
+    throw new PowerCommandException("Unexpected command found " + message);
   }
 }

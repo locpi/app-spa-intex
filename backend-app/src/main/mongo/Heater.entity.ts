@@ -1,5 +1,5 @@
-import {MongoEntity, MongoRepository} from "~/main/mongo/tools/MongoRepository";
-import {CommandState} from "~/main/model/CommandState";
+import { MongoEntity, MongoRepository } from "~/main/mongo/tools/MongoRepository";
+import { CommandState } from "~/main/model/CommandState";
 
 export class HeaterEntity implements MongoEntity {
 
@@ -14,7 +14,7 @@ export class HeaterEntity implements MongoEntity {
 
   _getId(): any {
     return {
-      date:this.date,
+      date: this.date,
       status: this.status
     }
   }
