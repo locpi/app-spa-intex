@@ -1,9 +1,9 @@
 import { Col, ListGroup, Row } from "react-bootstrap";
 import './css/NavBar.css';
 import { IoMdHome } from "react-icons/io";
-import { GrSchedule } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { IoIosSettings } from "react-icons/io";
+import { AiOutlineSchedule } from "react-icons/ai";
 
 export default function NavBar() {
 
@@ -20,7 +20,7 @@ export default function NavBar() {
 
                     <ListGroup.Item className="item">
                         <Link to={"/schedule"}>
-                            <GrSchedule />
+                            <AiOutlineSchedule />
                         </Link>
                     </ListGroup.Item>
                     <ListGroup.Item className="item">
