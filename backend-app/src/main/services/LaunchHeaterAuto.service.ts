@@ -5,6 +5,7 @@ import { HeaterTopic } from "../mqtt/HeaterTopic";
 import { CommandState } from "../model/CommandState";
 import { Logger } from "../config/Logger";
 import { HeaterService } from "./HeaterService";
+import * as console from "node:console";
 export class LaunchHeaterAutoService {
 
     private temperatureEntityRepository = new TemperatureEntityRepository();
@@ -25,26 +26,29 @@ export class LaunchHeaterAutoService {
                 $lt: new Date()
             }
         }, { date: -1 }).then(temps => {
-            const actualTemp = temps[0].actual;
-            const now = new Date();
-            this.registerSessionEntityRepository.findAllWithParams({ finish: false }).then(sessions => {
-                sessions.forEach(async (session: RegisterSession) => {
-                    if (session.date < new Date()) {
-                        session.finish = true;
-                        this.registerSessionEntityRepository.save(session);
-                    }
-                    var hours = Math.abs(session.date.getTime() - now.getTime()) / 36e5;
-                    const deltaTemp = Math.trunc(Math.abs(session.temperature - actualTemp));
-                    const degreWinIfStartNow = Math.trunc(degrePerHour * hours);
-                    if (deltaTemp == degreWinIfStartNow) {
-                        Logger.info('demarrage de la chauffe')
-                        const status = await this.heaterService.getStatus();
-                        if (status.status == CommandState.OFF) {
-                            this.heaterTopic.changeStateOfHeater(CommandState.ON);
+            if(temps[0]){
+                const actualTemp = temps[0].actual;
+                const now = new Date();
+                this.registerSessionEntityRepository.findAllWithParams({ finish: false }).then(sessions => {
+                    sessions.forEach(async (session: RegisterSession) => {
+                        if (session.date < new Date()) {
+                            session.finish = true;
+                            this.registerSessionEntityRepository.save(session);
                         }
-                    }
+                        var hours = Math.abs(session.date.getTime() - now.getTime()) / 36e5;
+                        const deltaTemp = Math.trunc(Math.abs(session.temperature - actualTemp));
+                        const degreWinIfStartNow = Math.trunc(degrePerHour * hours);
+                        if (deltaTemp == degreWinIfStartNow) {
+                            Logger.info('demarrage de la chauffe')
+                            const status = await this.heaterService.getStatus();
+                            if (status.status == CommandState.OFF) {
+                                this.heaterTopic.changeStateOfHeater(CommandState.ON);
+                            }
+                        }
+                    })
                 })
-            })
+            }
+
         })
     }
 
