@@ -1,10 +1,10 @@
-FROM arm64v8/node as build
+FROM node:22.10.0 as build
 COPY frontend-app /usr/front
 WORKDIR /usr/front
 RUN npm i
 RUN npm run build
 
-FROM arm64v8/node
+FROM node:22
 WORKDIR /usr/back
 RUN apt-get update &&  apt-get install nginx -y
 COPY backend-app /usr/back
