@@ -54,8 +54,7 @@ jobs:
       - name: Update Kubernetes deployment YAML
         run: |
           # Replace version in the image tag within Kubernetes deployment file
-          sed -i 's|image: loicpincon/weeding-front:.*|image: loicpincon/weeding-front:${{ env.VERSION }}|g' .kube/frontend.yml
-          sed -i 's|image: loicpincon/weeding-back:.*|image: loicpincon/weeding-back:${{ env.VERSION }}|g' .kube/backend.yml
+          sed -i 's|image: loicpincon/app-spa-intex:.*|image: loicpincon/app-spa-intex:${{ env.VERSION }}|g' .kube/app.yml
           echo "Updated Kubernetes deployment YAML with version ${{ env.VERSION }}"
       - name: Commit version updates
         run: |
