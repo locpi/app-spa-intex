@@ -20,7 +20,7 @@ jobs:
           token: ${{secrets.TOKEN}}
       - name: Increment version in package.json (Frontend)
         run: |
-          npm version patch --prefix weeding-front --no-git-tag-version
+          npm version patch --no-git-tag-version
           echo "Updated package.json version."
       - name: Get version from package json
         id: get_version
