@@ -35,20 +35,11 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Build and push BACK
+      - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: back
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/weeding-back:${{ env.VERSION }}
-          platforms: linux/amd64
-          file: back/Dockerfile
-      - name: Build and push FRONT
-        uses: docker/build-push-action@v4
-        with:
-          context: weeding-front
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/weeding-front:${{ env.VERSION }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/app-spa-intex:${{ env.VERSION }}
           platforms: linux/amd64
           file: Dockerfile
       - name: Update Kubernetes deployment YAML
