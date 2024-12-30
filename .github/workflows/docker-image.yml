@@ -1,28 +1,67 @@
-name: build-docker-images
+name: Build Docker Image
 
 on:
   push:
     branches:
-      - "main"
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  docker:
+  build:
+    environment: DOCKER
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{secrets.TOKEN}}
+      - name: Increment version in package.json (Frontend)
+        run: |
+          npm version patch --prefix weeding-front --no-git-tag-version
+          echo "Updated package.json version."
+      - name: Get version from package json
+        id: get_version
+        run: |
+          version=$(jq -r '.version' package.json)
+          echo "VERSION=$version" >> $GITHUB_ENV
+          echo ${{ env.VERSION }}
+      - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and push
-        uses: docker/build-push-action@v5
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push BACK
+        uses: docker/build-push-action@v4
         with:
-          context: .
-          platforms: linux/amd64,linux/arm64,linux/arm/v8
+          context: back
           push: true
-          tags: loicpincon/app-spa-intex:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/weeding-back:${{ env.VERSION }}
+          platforms: linux/amd64
+          file: back/Dockerfile
+      - name: Build and push FRONT
+        uses: docker/build-push-action@v4
+        with:
+          context: weeding-front
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/weeding-front:${{ env.VERSION }}
+          platforms: linux/amd64
+          file: Dockerfile
+      - name: Update Kubernetes deployment YAML
+        run: |
+          # Replace version in the image tag within Kubernetes deployment file
+          sed -i 's|image: loicpincon/app-spa-intex:.*|image: loicpincon/app-spa-intex:${{ env.VERSION }}|g' .kube/app.yml
+          echo "Updated Kubernetes deployment YAML with version ${{ env.VERSION }}"
+      - name: Commit version updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git add .kube/app.yml
+          git commit -m "chore: increment version numbers [skip ci]" || echo "No changes to commit."
+          git pull --rebase origin main || echo "No changes to rebase."
+          git push origin HEAD:main || echo "No changes to push."
